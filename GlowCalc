@@ -1,0 +1,152 @@
+// GlowCalc - A simple calculator with a glowing effect
+const express = require("express");
+const app = express();
+const port = 3000;
+
+app.get("/", (_, res) => {
+  res.send(`
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GlowCalc</title>
+    <style>
+      body {
+        margin: 0;
+        background: #0d1117;
+        color: #c9d1d9;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .box {
+        background: #161b22;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px #0ff2ff44;
+        width: 350px;
+      }
+      .scrn {
+        background: #0d1117;
+        padding: 15px;
+        font-size: 1.6rem;
+        text-align: right;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #30363d;
+        color: #58a6ff;
+        min-height: 40px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .btn {
+        padding: 12px;
+        font-size: 1rem;
+        border: none;
+        background: #21262d;
+        color: #c9d1d9;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.2s;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      }
+      .btn:hover {
+        background: #30363d;
+      }
+      .btn.eq {
+        background: #238636;
+        color: #fff;
+      }
+      .btn.eq:hover {
+        background: #2ea043;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div id="scrn" class="scrn">0</div>
+      <div class="grid">
+        <button class="btn" onclick="add('7')">7</button>
+        <button class="btn" onclick="add('8')">8</button>
+        <button class="btn" onclick="add('9')">9</button>
+        <button class="btn" onclick="add('/')">/</button>
+
+        <button class="btn" onclick="add('4')">4</button>
+        <button class="btn" onclick="add('5')">5</button>
+        <button class="btn" onclick="add('6')">6</button>
+        <button class="btn" onclick="add('')"></button>
+
+        <button class="btn" onclick="add('1')">1</button>
+        <button class="btn" onclick="add('2')">2</button>
+        <button class="btn" onclick="add('3')">3</button>
+        <button class="btn" onclick="add('-')">-</button>
+
+        <button class="btn" onclick="add('0')">0</button>
+        <button class="btn" onclick="add('.')">.</button>
+        <button class="btn eq" onclick="calc()">=</button>
+        <button class="btn" onclick="add('+')">+</button>
+
+        <button class="btn" onclick="add('(')">(</button>
+        <button class="btn" onclick="add(')')">)</button>
+        <button class="btn" onclick="add('^')">^</button>
+        <button class="btn" onclick="add('sqrt(')">√</button>
+
+        <button class="btn" onclick="add('sin(')">sin</button>
+        <button class="btn" onclick="add('cos(')">cos</button>
+        <button class="btn" onclick="add('tan(')">tan</button>
+        <button class="btn" onclick="add('log(')">log</button>
+
+        <button class="btn" onclick="add('ln(')">ln</button>
+        <button class="btn" onclick="clr()">C</button>
+        <button class="btn" onclick="del()">DEL</button>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+    <script>
+      let val = '';
+      const out = document.getElementById('scrn');
+
+      const add = x => {
+        val += x;
+        out.innerText = val;
+      }
+
+      const calc = () => {
+        try {
+          val = math.evaluate(val).toString();
+        } catch {
+          val = 'Err';
+        }
+        out.innerText = val;
+      }
+
+      const clr = () => {
+        val = '';
+        out.innerText = '0';
+      }
+
+      const del = () => {
+        val = val.slice(0, -1);
+        out.innerText = val || '0';
+      }
+    </script>
+  </body>
+  </html>
+  `);
+});
+
+app.listen(port, () => {
+  console.log("🧮 Ready at http://localhost:" + port);
+});
+
+
+
+
+
